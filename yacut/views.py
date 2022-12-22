@@ -1,8 +1,7 @@
-import string
 import random
+import string
 
 from http import HTTPStatus
-
 from flask import flash, redirect, render_template
 
 from . import app, db
@@ -22,22 +21,22 @@ def get_unique_short_id():
 @app.route('/', methods=['GET', 'POST'])
 def index_view():
     form = CutForm()
-    if form.validate_on_submit():
-        custom_id = form.custom_id.data
-        if URLMap.query.filter_by(short=custom_id).first():
-            flash(f'Имя {custom_id} уже занято!')
-            return render_template('index.html', form=form)
-        if not custom_id:
-            custom_id = get_unique_short_id()
-        links = URLMap(
-            original=form.original_link.data,
-            short=custom_id
-        )
-        db.session.add(links)
-        db.session.commit()
-        return (render_template('index.html', form=form, short=custom_id),
-                HTTPStatus.OK)
-    return render_template('index.html', form=form)
+    if not form.validate_on_submit():
+        return render_template('index.html', form=form)
+    custom_id = form.custom_id.data
+    if URLMap.query.filter_by(short=custom_id).first():
+        flash(f'Имя {custom_id} уже занято!')
+        return render_template('index.html', form=form)
+    if not custom_id:
+        custom_id = get_unique_short_id()
+    links = URLMap(
+        original=form.original_link.data,
+        short=custom_id
+    )
+    db.session.add(links)
+    db.session.commit()
+    return (render_template('index.html', form=form, short=custom_id),
+            HTTPStatus.OK)
 
 
 @app.route('/<string:short>')

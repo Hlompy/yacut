@@ -1,12 +1,13 @@
 import re
+from http import HTTPStatus
+
 from flask import jsonify, request
+from settings import REG
 
 from . import app, db
 from .error_handlers import InvalidAPIUsage
 from .models import URLMap
 from .views import get_unique_short_id
-
-REG = '^[A-Za-z0-9]*$'
 
 
 @app.route('/api/id/', methods=['POST'])
@@ -33,12 +34,12 @@ def add_link():
     )
     db.session.add(links)
     db.session.commit()
-    return jsonify(links.to_dict()), 201
+    return jsonify(links.to_dict()), HTTPStatus.CREATED
 
 
 @app.route('/api/id/<string:short>/', methods=['GET'])
 def get_short_link(short):
     original_link = URLMap.query.filter_by(short=short).first()
     if original_link is None:
-        raise InvalidAPIUsage('Указанный id не найден', 404)
-    return jsonify({'url': original_link.original}), 200
+        raise InvalidAPIUsage('Указанный id не найден', HTTPStatus.NOT_FOUND)
+    return jsonify({'url': original_link.original}), HTTPStatus.OK
