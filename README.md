@@ -1,6 +1,6 @@
-# Укорачиватель ссылок YaCut
+# YaCut URL Shortener
 
-Клонировать репозиторий и перейти в него в командной строке:
+Clone the repository and go to it in the command line:
 
 ```
 git clone https://github.com/Hlompy/yacut.git
@@ -8,19 +8,19 @@ git clone https://github.com/Hlompy/yacut.git
 cd yacut
 ```
 
-Cоздать и активировать виртуальное окружение:
+Create and activate the virtual environment:
 
 `python3 -m venv venv`
 
-* Если у вас Linux/macOS
+* If you are on Linux/macOS
 
-    `source venv/bin/activate`
+`source venv/bin/activate`
 
-* Если у вас windows
+* If you are on windows
 
-    `source venv/scripts/activate`
+`source venv/scripts/activate`
 
-Установить зависимости из файла requirements.txt:
+Install dependencies from the requirements.txt file:
 
 ```
 python3 -m pip install --upgrade pip
